@@ -12,8 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\sufia\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\sufia\\.nuget\\packages",
+      "C:\\Users\\diurno\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\diurno\\.nuget\\packages",
       "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
     ],
     "configProperties": {

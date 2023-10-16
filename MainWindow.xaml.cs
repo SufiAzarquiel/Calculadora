@@ -9,10 +9,11 @@ namespace Calculadora
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int currNum = 0;
-        private int prevNum = 0;
+        private float currNum = 0;
+        private float prevNum = 0;
         private string numStr = string.Empty;
         private Button? btn;
+        private char currOperation;
         private bool operating = false;
 
         public MainWindow()
@@ -32,19 +33,24 @@ namespace Calculadora
             {
                 SetCurrNumber();
             }
+            else if (btn.Tag.ToString() == "point")
+            {
+                if (!numStr.Contains('.'))
+                {
+                    numStr += ',';
+                }
+            }
             else if (btn.Tag.ToString() == "operation")
             {
                 if (!operating)
                 {
-                    prevNum = currNum;
                     operating = true;
                 } else
                 {
-                    char c = btn.Content.ToString()![0];
-                    switch (c)
+                    switch (currOperation)
                     {
                         case '-':
-                            currNum -= prevNum;
+                            currNum = prevNum - currNum;
                             break;
                         case '+':
                             currNum += prevNum;
@@ -53,16 +59,30 @@ namespace Calculadora
                             currNum *= prevNum;
                             break;
                         case '÷':
-                            if (prevNum == 0)
+                            if (currNum == 0)
                             {
                                 break;
                             }
-                            currNum /= prevNum;
+                            currNum = prevNum / currNum;
                             break;
                     }
-                    operating = false;
                 }
+                currOperation = btn.Content.ToString()![0];
+                numStr = string.Empty;
+                prevNum = currNum;
             }
+            ShowNum();
+            if (btn.Content.ToString()![0] == '=')
+            {
+                currNum = 0;
+                operating = false;
+            }
+        }
+
+        private void ShowNum()
+        {
+            lblStack.Content = prevNum;
+            lblNum.Content = currNum;
         }
 
         private void SetCurrNumber()
@@ -72,7 +92,7 @@ namespace Calculadora
                 return;
             }
             numStr += btn.Content.ToString();
-            currNum = int.Parse(numStr);
+            currNum = float.Parse(numStr, System.Globalization.NumberStyles.AllowDecimalPoint);
         }
     }
 }
